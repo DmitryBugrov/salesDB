@@ -32,7 +32,8 @@ public class ProductController {
     @PostMapping(path="/add", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity addproduct (@Valid @RequestBody  Product product, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return new ResponseEntity(bindingResult, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity(product,HttpStatus.OK);
+        //repo.save(product);
+        return new ResponseEntity(repo.save(product),HttpStatus.OK);
     }
 
 }
