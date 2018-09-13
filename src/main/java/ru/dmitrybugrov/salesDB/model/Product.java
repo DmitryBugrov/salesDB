@@ -2,6 +2,7 @@ package ru.dmitrybugrov.salesDB.model;
 
 import lombok.Data;
 import lombok.NonNull;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,10 +18,14 @@ public class Product {
     @Id
     @GeneratedValue
     private Long        id;
+
     @NotNull
+    @Column(unique = true)
     private String name;
+
     @NotNull
     private Double price;
+
     private float  discount;
 
     public Product() {
