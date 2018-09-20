@@ -1,7 +1,9 @@
 package ru.dmitrybugrov.salesDB.model;
 
 
-public class JsonError {
+import org.springframework.validation.BindingResult;
+
+public class JsonError  {
     private String  message;
     private String  details;
 
@@ -9,4 +11,5 @@ public class JsonError {
         this.message = message;
         this.details = details;
     }
+
 }

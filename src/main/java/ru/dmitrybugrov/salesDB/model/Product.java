@@ -48,4 +48,8 @@ public class Product {
         this.price = price;
         this.discount = discount;
     }
+
+    public String getName() {
+        return name;
+    }
 }

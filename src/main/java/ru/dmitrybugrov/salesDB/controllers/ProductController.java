@@ -14,7 +14,7 @@ import ru.dmitrybugrov.salesDB.repositories.ProductRepository;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController ("/product")
+@RestController
 public class ProductController {
 
     private final ProductRepository repo;
@@ -29,7 +29,7 @@ public class ProductController {
      *
      * @return Array of Products
      */
-    @GetMapping(path="/all")
+    @GetMapping(path="/product/all")
     public Iterable<Product> getAllProducts() {
         return repo.findAll();
     }
@@ -40,11 +40,20 @@ public class ProductController {
      * @see Product
      * @return Product which was added and http status
      */
-    @PostMapping(path="/add", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(path="/product/add", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity addproduct (@Valid @RequestBody  Product product, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return new ResponseEntity(bindingResult, HttpStatus.BAD_REQUEST);
+        if (!repo.findByName(product.getName()).isEmpty()) {
+            //BindingResult er=new BindingResult();
+            //JsonError er=new JsonError("error","Product with this name already exist");
+
+            JsonError jsonError = new JsonError("error","Product with this name already exist");
+            return new ResponseEntity(jsonError , HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity(repo.save(product),HttpStatus.OK);
     }
+
+
 
 }
