@@ -1,6 +1,8 @@
 package ru.dmitrybugrov.salesDB.controllers;
 
 
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +18,8 @@ import java.util.List;
 
 @RestController
 public class ProductController {
+
+    private static final Logger log = Logger.getLogger(ProductController.class);
 
     private final ProductRepository repo;
 
@@ -42,8 +46,12 @@ public class ProductController {
      */
     @PostMapping(path="/product/add", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity addproduct (@Valid @RequestBody  Product product, BindingResult bindingResult) {
+        log.debug(product.toString());
         if (bindingResult.hasErrors()) return new ResponseEntity(bindingResult, HttpStatus.BAD_REQUEST);
-        if (!repo.findByName(product.getName()).isEmpty()) {
+        List<Product> listProduct=repo.findByName(product.getName());
+        log.debug(listProduct.toString());
+        if (!listProduct.isEmpty()) {
+
             //BindingResult er=new BindingResult();
             //JsonError er=new JsonError("error","Product with this name already exist");
 
