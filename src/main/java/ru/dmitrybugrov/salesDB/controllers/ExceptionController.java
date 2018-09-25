@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.dmitrybugrov.salesDB.model.JsonError;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
@@ -26,14 +27,25 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RestControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
+//
+//    @Override
+//    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+//                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+//        JsonError jsonError = new JsonError("Request validation Failed",
+//                ex.toString());
+//        return new ResponseEntity(jsonError, HttpStatus.BAD_REQUEST);
+//
+//    }
 
-    @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
-        JsonError jsonError = new JsonError("Request validation Failed",
+    @ExceptionHandler ({Exception.class})
+    protected  ResponseEntity<Object> handleExceptionHandlerExceptionResolver(Exception ex) {
+        JsonError jsonError = new JsonError("error",
                 ex.toString());
         return new ResponseEntity(jsonError, HttpStatus.BAD_REQUEST);
-
     }
+
+
+
+
 
 }
