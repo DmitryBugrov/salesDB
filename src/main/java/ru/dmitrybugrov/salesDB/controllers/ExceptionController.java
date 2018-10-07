@@ -53,7 +53,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity(jsonError, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex, WebRequest request) {
         JsonError jsonError = new JsonError(ex.getName() + " should be of type " + ex.getRequiredType().getName(),
@@ -61,4 +61,11 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity(jsonError, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({Exception.class})
+    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+        JsonError jsonError = new JsonError("Internal error (see details)",
+                ex.toString());
+        return new ResponseEntity(jsonError, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
 }
