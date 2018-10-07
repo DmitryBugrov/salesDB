@@ -2,9 +2,8 @@ package ru.dmitrybugrov.salesDB.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -12,8 +11,10 @@ public class InvoiceLine {
 
     @Id
     @GeneratedValue
+    @NotNull
     private Long Id;
 
+    @OneToOne
     private Product product;
 
     private Integer quantity;
