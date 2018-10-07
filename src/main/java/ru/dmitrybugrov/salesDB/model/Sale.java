@@ -1,8 +1,6 @@
 package ru.dmitrybugrov.salesDB.model;
 
 import lombok.Data;
-import lombok.NonNull;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.NotNull;
