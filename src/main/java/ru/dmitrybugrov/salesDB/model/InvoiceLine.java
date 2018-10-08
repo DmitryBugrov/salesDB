@@ -9,12 +9,14 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class InvoiceLine {
 
+    public InvoiceLine() {
+    }
+
     @Id
     @GeneratedValue
-    @NotNull
-    private Long Id;
+    private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Product product;
 
     private Integer quantity;

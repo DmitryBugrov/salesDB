@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.dmitrybugrov.salesDB.model.JsonError;
 import ru.dmitrybugrov.salesDB.model.Sale;
@@ -27,13 +29,21 @@ public class SaleController {
     }
 
     @PostMapping("/sale/add")
-    public ResponseEntity<Sale> add (@Valid Sale sale, BindingResult bindingResult) {
+    public ResponseEntity<Sale> add (@Valid @RequestBody Sale sale, BindingResult bindingResult) {
         log.debug(sale.toString());
         if (bindingResult.hasErrors()) return returnErrorBinding(bindingResult);
 
         return new ResponseEntity<Sale>(repo.save(sale),HttpStatus.OK);
 
     }
+
+    @GetMapping("/sale/all")
+    public Iterable<Sale> getAllSales () {
+        return repo.findAll();
+
+    }
+
+
 
     private ResponseEntity returnErrorBinding(BindingResult bindingResult) {
         return new ResponseEntity(

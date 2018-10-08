@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.dmitrybugrov.salesDB.model.InvoiceLine;
 import ru.dmitrybugrov.salesDB.model.JsonError;
+import ru.dmitrybugrov.salesDB.model.Sale;
 import ru.dmitrybugrov.salesDB.repositories.InvoiceLineRepository;
 
 import javax.validation.Valid;
@@ -31,6 +33,12 @@ public class InvoiceLineController {
         if (bindingResult.hasErrors()) return returnErrorBinding(bindingResult);
 
         return new ResponseEntity(repo.save(invoice), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/invoiceline/all")
+    public Iterable<InvoiceLine> getAllInvoiceLines () {
+        return repo.findAll();
 
     }
 

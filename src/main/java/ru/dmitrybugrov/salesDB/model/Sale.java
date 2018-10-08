@@ -1,10 +1,8 @@
 package ru.dmitrybugrov.salesDB.model;
 
 import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -13,19 +11,24 @@ import java.util.List;
 @Entity
 public class Sale {
 
-    @NotNull
+
     @GeneratedValue
     @Id
-    private Long Id;
+    private Long id;
 
-    @NotNull
+
     private Date date;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<InvoiceLine> lineList;
 
     public Sale(List<InvoiceLine> lineList) {
+        this();
         this.lineList = lineList;
+
+    }
+
+    public Sale() {
         this.date=new Date();
     }
 }
