@@ -1,6 +1,7 @@
 package ru.dmitrybugrov.salesDB.controllers;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,12 @@ import ru.dmitrybugrov.salesDB.model.JsonError;
 @RestControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
+    private static final Logger log = Logger.getLogger(ProductController.class);
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
+        log.debug(request.toString());
         JsonError jsonError = new JsonError("Request validation Failed",
                 ex.toString());
         return new ResponseEntity(jsonError, HttpStatus.BAD_REQUEST);
@@ -32,6 +35,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMissingServletRequestParameter(
             MissingServletRequestParameterException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
+        log.debug(request.toString());
         JsonError jsonError = new JsonError("Request validation Failed",
                 ex.toString());
         return new ResponseEntity(jsonError, HttpStatus.BAD_REQUEST);
@@ -40,6 +44,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        log.debug(request.toString());
         JsonError jsonError = new JsonError("Request validation Failed",
                 ex.toString());
         return new ResponseEntity(jsonError, HttpStatus.BAD_REQUEST);
@@ -48,6 +54,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        log.debug(request.toString());
         JsonError jsonError = new JsonError(ex.getRequestURL() + " not found",
                 ex.toString());
         return new ResponseEntity(jsonError, HttpStatus.NOT_FOUND);
@@ -56,6 +63,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex, WebRequest request) {
+        log.debug(request.toString());
         JsonError jsonError = new JsonError(ex.getName() + " should be of type " + ex.getRequiredType().getName(),
                 ex.toString());
         return new ResponseEntity(jsonError, HttpStatus.BAD_REQUEST);
@@ -63,6 +71,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+        log.debug(request.toString());
         JsonError jsonError = new JsonError("Internal error (see details)",
                 ex.toString());
         return new ResponseEntity(jsonError, HttpStatus.INTERNAL_SERVER_ERROR);

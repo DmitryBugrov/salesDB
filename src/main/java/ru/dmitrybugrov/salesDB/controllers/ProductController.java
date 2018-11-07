@@ -45,6 +45,7 @@ public class ProductController {
      * @see Product
      * @return Product which was added and http status
      */
+    @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping(path="/product/add", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity add (@Valid @RequestBody  Product product, BindingResult bindingResult) {
         log.debug(product.toString());
